@@ -1,0 +1,57 @@
+% Define the coefficient matrix A
+A = [2, -1, 0, 0;
+     -1, 2, -1, 0;
+     0, -1, 2, -1;
+     0, 0, -1, 2];
+
+% Compute the eigenvalues and eigenvectors of A
+[V, D] = eig(A);
+
+% Extract the diagonal matrix of eigenvalues
+lambda = diag(D);
+
+% Define the right-hand side vector b
+b = [500; 0; 0; 100];
+
+% Initialize the solution vector x
+x = zeros(size(b));
+
+% Solve for each component of x
+for i = 1:length(lambda)
+    x = x + (V(:,i)' * b / lambda(i)) * V(:,i);
+end
+
+% Display the solution
+disp('Solution x:');
+disp(x);
+plot(x);
+L=1;
+Nx=10;
+dx=L/(Nx-1);
+Q = 0;
+A = zeros(Nx,Nx);
+A(1,1) = 2;
+A(Nx,Nx)=2;
+A(10,9)=-1;
+for i = 2:Nx-1
+    A(i,i-1) =-1;
+    A(i,i) = 2;
+    A(i,i+1) =-1;
+    A(i-1,i) = -1;
+end
+disp(A)
+[V, D] = eig(A);
+lambda = diag(D);
+disp(lambda);
+b = [500; 0; 0; 0; 0; 0; 0; 0; 0; 100];
+x = zeros(size(b));
+disp(x);
+for j = 1:length(lambda)
+    x = x + (V(:,j)' * b / lambda(j)) * V(:,j);
+end
+disp('Solution x:');
+disp(x);
+plot(x);
+xlabel('Temperature');
+title('Temperature Distribution')
+grid on;
